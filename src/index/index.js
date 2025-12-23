@@ -78,24 +78,51 @@ function buildChronologicalIndex(entries) {
 
 /**
  * Add previous/next relationships
+ * Navigation is contextual - entries link to others in the same epic (if epic is specified)
  */
 function addNavigationLinks(entries) {
   const sorted = buildChronologicalIndex(entries);
   
-  return sorted.map((entry, index) => {
+  // Group entries by epic
+  const entriesByEpic = {};
+  entries.forEach(entry => {
+    const epic = entry.metadata.epic || 'none';
+    if (!entriesByEpic[epic]) {
+      entriesByEpic[epic] = [];
+    }
+    entriesByEpic[epic].push(entry);
+  });
+  
+  // Sort each epic's entries chronologically
+  Object.keys(entriesByEpic).forEach(epic => {
+    entriesByEpic[epic].sort((a, b) => 
+      a.metadata.date.localeCompare(b.metadata.date)
+    );
+  });
+  
+  return sorted.map((entry) => {
     const result = { ...entry };
+    const epic = entry.metadata.epic || 'none';
+    const epicEntries = entriesByEpic[epic] || [];
     
-    if (index > 0) {
+    // Find this entry's position within its epic
+    const epicIndex = epicEntries.findIndex(e => e.metadata.date === entry.metadata.date);
+    
+    if (epicIndex > 0) {
+      // Has a previous entry in the same epic
       result.previous = {
-        id: sorted[index - 1].metadata.date,
-        date: sorted[index - 1].metadata.date
+        id: epicEntries[epicIndex - 1].metadata.date,
+        date: epicEntries[epicIndex - 1].metadata.date,
+        title: extractTitle(epicEntries[epicIndex - 1].body) || epicEntries[epicIndex - 1].metadata.date
       };
     }
     
-    if (index < sorted.length - 1) {
+    if (epicIndex < epicEntries.length - 1) {
+      // Has a next entry in the same epic
       result.next = {
-        id: sorted[index + 1].metadata.date,
-        date: sorted[index + 1].metadata.date
+        id: epicEntries[epicIndex + 1].metadata.date,
+        date: epicEntries[epicIndex + 1].metadata.date,
+        title: extractTitle(epicEntries[epicIndex + 1].body) || epicEntries[epicIndex + 1].metadata.date
       };
     }
     

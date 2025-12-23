@@ -27,7 +27,25 @@ permalink: "/{{ entry.metadata.date | replace('-', '/') }}/index.html"
   </div>
   
   <nav class="entry-nav">
-    <a href="{{ '/' | url | relativeUrl }}">← Back to home</a>
+    <div class="entry-nav-links">
+      {% if entry.previous %}
+        <a href="{{ ('/' + entry.previous.date | replace('-', '/') + '/') | url | relativeUrl }}" class="nav-link nav-prev">
+          ← Previous: {{ entry.previous.title }}
+        </a>
+      {% else %}
+        <span class="nav-link nav-prev disabled"></span>
+      {% endif %}
+      
+      <a href="{{ '/' | url | relativeUrl }}" class="nav-link nav-home">Home</a>
+      
+      {% if entry.next %}
+        <a href="{{ ('/' + entry.next.date | replace('-', '/') + '/') | url | relativeUrl }}" class="nav-link nav-next">
+          Next: {{ entry.next.title }} →
+        </a>
+      {% else %}
+        <span class="nav-link nav-next disabled"></span>
+      {% endif %}
+    </div>
   </nav>
 </article>
 
