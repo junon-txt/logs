@@ -1,0 +1,42 @@
+---
+layout: layouts/base.njk
+title: Tag
+pagination:
+  data: tags
+  size: 1
+  alias: tagData
+  addAllPagesToCollections: true
+permalink: "/tags/{{ tagData.tag | slug }}/index.html"
+---
+
+<div class="tag-header">
+  <h1>{{ tagData.tag | capitalize }}</h1>
+  <p class="tag-meta">
+    {% if tagData.count == 1 %}1 entry{% else %}{{ tagData.count }} entries{% endif %}
+  </p>
+</div>
+
+<section class="tag-entries">
+  <div class="entries-grid">
+    {% for entryInfo in tagData.entries %}
+      <a href="{{ ('/' + (entryInfo.date | replace('-', '/')) + '/') | url | relativeUrl }}" class="entry-card">
+        <div class="entry-card-header">
+          <h3 class="entry-card-title">{{ entryInfo.title }}</h3>
+          <span class="entry-card-date">{{ entryInfo.date }}</span>
+        </div>
+        {% if entryInfo.tags %}
+          <div class="entry-card-tags">
+            {% for tag in entryInfo.tags %}
+              <span class="entry-card-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="back-link">
+  <a href="{{ '/' | url | relativeUrl }}">← Back to home</a>
+</div>
+

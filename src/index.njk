@@ -1,0 +1,65 @@
+---
+layout: layouts/base.njk
+title: Home
+---
+
+<div class="hero">
+  <h1>Logs</h1>
+  <p class="subtitle">A personal diary of thoughts, travels, and experiences</p>
+</div>
+
+{% if tags.length > 0 %}
+<section class="tags-section">
+  <h2>Explore by Topic</h2>
+  <div class="tags-grid">
+    {% for tagData in tags %}
+    <a href="{{ ('/tags/' + (tagData.tag | slug) + '/') | url | relativeUrl }}" class="tag-card">
+      <div class="tag-card-header">
+        <span class="tag-name">{{ tagData.tag }}</span>
+        <span class="tag-count">
+          {{ tagData.count }} 
+          {% if tagData.count == 1 %}entry{% else %}entries{% endif %}
+        </span>
+      </div>
+      <div class="tag-card-preview">
+        {% if tagData.entries.length > 0 %}
+          <p class="latest-entry">
+            Latest: {{ tagData.entries[0].date }}
+            {% if tagData.entries[0].location %}
+              <span class="location-badge">{{ tagData.entries[0].location }}</span>
+            {% endif %}
+          </p>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="recent-section">
+  <h2>Recent Entries</h2>
+  <ul class="entries-list">
+    {% for entry in entries | limit(5) %}
+    <li class="entry-item">
+      <a href="{{ ('/' + (entry.metadata.date | replace('-', '/')) + '/') | url | relativeUrl }}" class="entry-link">
+        <span class="entry-date">{{ entry.metadata.date }}</span>
+        {% if entry.metadata.location %}
+          <span class="entry-location">{{ entry.metadata.location }}</span>
+        {% endif %}
+        {% if entry.metadata.tags %}
+          <div class="entry-tags">
+            {% for tag in entry.metadata.tags %}
+              <span class="entry-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% if entries.length > 5 %}
+    <p class="view-all"><a href="{{ '/archive/' | url | relativeUrl }}">View all entries →</a></p>
+  {% endif %}
+</section>
+

@@ -1,0 +1,30 @@
+{
+  "name": "logs",
+  "version": "0.1.0",
+  "description": "A static-first diary web application",
+  "type": "module",
+  "scripts": {
+    "build": "node src/pipeline.js && eleventy --config=.eleventy.cjs",
+    "serve": "node src/pipeline.js && eleventy --config=.eleventy.cjs --serve",
+    "dev": "npm run serve"
+  },
+  "keywords": [
+    "diary",
+    "blog",
+    "static-site"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-junon:junon-txt/logs.git"
+  }
+}

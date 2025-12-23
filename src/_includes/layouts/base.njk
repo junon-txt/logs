@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} | {% endif %}Logs</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | url | relativeUrl }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="{{ '/' | url | relativeUrl }}">Home</a>
+    </nav>
+  </header>
+  
+  <main>
+    {{ content | safe }}
+  </main>
+  
+  <footer>
+    <p>A personal diary</p>
+  </footer>
+</body>
+</html>
+

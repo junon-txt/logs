@@ -1,0 +1,33 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: entries
+  size: 1
+  alias: entry
+permalink: "/{{ entry.metadata.date | replace('-', '/') }}/index.html"
+---
+
+<article>
+  <header>
+    <h1>{{ entry.metadata.date }}</h1>
+    {% if entry.metadata.location %}
+      <p class="location">{{ entry.metadata.location }}</p>
+    {% endif %}
+    {% if entry.metadata.tags %}
+      <p class="tags">
+        {% for tag in entry.metadata.tags %}
+          <a href="{{ ('/tags/' + (tag | slug) + '/') | url | relativeUrl }}" class="tag">{{ tag }}</a>
+        {% endfor %}
+      </p>
+    {% endif %}
+  </header>
+  
+  <div class="content">
+    {{ entry.body | markdown(entry.metadata.date) | safe }}
+  </div>
+  
+  <nav class="entry-nav">
+    <a href="{{ '/' | url | relativeUrl }}">← Back to home</a>
+  </nav>
+</article>
+
