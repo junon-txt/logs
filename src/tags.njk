@@ -36,7 +36,11 @@ permalink: "/tags/{{ tagData.tag | slug }}/index.html"
   </div>
 </section>
 
-<div class="back-link">
-  <a href="{{ '/' | url | relativeUrl }}">← Back to home</a>
-</div>
+<nav class="entry-nav">
+  <div class="entry-nav-links">
+    <span class="nav-link nav-prev disabled"></span>
+    <a href="{{ '/' | url | relativeUrl }}" class="nav-link nav-home">Home</a>
+    <span class="nav-link nav-next disabled"></span>
+  </div>
+</nav>
 

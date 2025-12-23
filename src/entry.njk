@@ -8,17 +8,20 @@ permalink: "/{{ entry.metadata.date | replace('-', '/') }}/index.html"
 ---
 
 <article>
-  <header>
-    <h1>{{ entry.metadata.date }}</h1>
-    {% if entry.metadata.location %}
-      <p class="location">{{ entry.metadata.location }}</p>
-    {% endif %}
+  <header class="entry-header">
+    <div class="entry-meta">
+      <time class="entry-date" datetime="{{ entry.metadata.date }}">{{ entry.metadata.date }}</time>
+      {% if entry.metadata.location %}
+        <span class="entry-location-sep">·</span>
+        <span class="entry-location">{{ entry.metadata.location }}</span>
+      {% endif %}
+    </div>
     {% if entry.metadata.tags %}
-      <p class="tags">
+      <div class="entry-tags-inline">
         {% for tag in entry.metadata.tags %}
-          <a href="{{ ('/tags/' + (tag | slug) + '/') | url | relativeUrl }}" class="tag">{{ tag }}</a>
+          <a href="{{ ('/tags/' + (tag | slug) + '/') | url | relativeUrl }}" class="tag-small">{{ tag }}</a>
         {% endfor %}
-      </p>
+      </div>
     {% endif %}
   </header>
   
